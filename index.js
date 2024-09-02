@@ -119,6 +119,9 @@ module.exports = function (app) {
           }
         })
         acc.push(stream.map(value => {
+          if (typeof value === 'object') {
+            value = value.value;
+          }
           const zoneIndex = tests.findIndex(test => test(value));
           debug(`Value: ${value}, Zone Index: ${zoneIndex}`);
           return zoneIndex;
@@ -159,7 +162,7 @@ module.exports = function (app) {
       updates: [
         {
           source: {
-            label: "self.notificationhandler"
+            label: plugin.id
           },
           values: [{
             path: "notifications." + key,
@@ -178,7 +181,7 @@ module.exports = function (app) {
       updates:
         zoneEntries.map(zoneEntry => ({
           source: {
-            label: "self.notificationhandler"
+            label: plugin.id
           },
           meta: [
             {
